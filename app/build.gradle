@@ -31,6 +31,4 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     implementation 'com.akexorcist:bluetoothspp:1.0.0'
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.1'
-
 }

@@ -20,7 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tbruyelle.rxpermissions2.RxPermissions;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,13 +31,9 @@ import static app.akexorcist.bluetotohspp.library.BluetoothState.REQUEST_ENABLE_
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private String[] perms = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN};
     private Button button;
     private BluetoothAdapter bluetoothAdapter;
-    private BluetoothSocket bluetoothSocket;
     private BluetoothDevice device;
-    private InputStream inputStream;
-    private OutputStream OutputStream;
     private static String TAG = "MainActivity";
     private String mDeviceAddress = "00:15:A6:00:4D:E6";
     public static UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -49,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RxPermissions rxPermissions = new RxPermissions(this);
         button = findViewById(R.id.button);
         etInput = findViewById(R.id.editText);
         button.setOnClickListener(this);
@@ -104,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
             // Toast.makeText(MainActivity.this, "蓝牙已打开", Toast.LENGTH_SHORT).show();
-            //如果我们已经发现了，请停止它
+            //如果我们已经发现了，停止搜索
             if (bluetoothAdapter.isDiscovering()) {
                 bluetoothAdapter.cancelDiscovery();
             }
@@ -118,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ConnectThread();
         //   sendData(etInput.getText().toString().getBytes());
     }
+
 
     public void ConnectThread() {
         BluetoothDevice device = bluetoothAdapter.getRemoteDevice(mDeviceAddress);
