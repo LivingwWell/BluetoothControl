@@ -21,10 +21,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.UUID;
 
 import static app.akexorcist.bluetotohspp.library.BluetoothState.REQUEST_ENABLE_BT;
@@ -54,6 +58,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intentFilter.addAction(BluetoothDevice.ACTION_FOUND);
         intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         this.registerReceiver(receiver, intentFilter);
+        Permissions();
+
+    }
+
+    //授权
+    private void Permissions(){
+        String[] permissionGroup={
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        };
+        XXPermissions.with(this)
+                .permission(permissionGroup)
+                .request(new OnPermission() {
+                    @Override
+                    public void hasPermission(List<String> granted, boolean isAll) {
+                    }
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+                    }
+                });
     }
 
     @Override
